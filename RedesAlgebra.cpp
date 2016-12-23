@@ -425,6 +425,15 @@ class Grafo
 		return false;
 	}
 
+	bool arcoPertenece(Arco arco){
+		for (std::vector<Arco>::iterator i = arcos.begin(); i != arcos.end(); ++i)
+		{
+			if(i->getSource()==arco.getSource() && i->getDestination()==arco.getDestination() && i->getRelacion().compare(arco.getRelacion())==0) return true;
+		}
+		return false;
+
+	}
+
 	bool borrarNodo(Nodo n){
 		return false;
 	}
@@ -1319,6 +1328,18 @@ ListExpr nodoPerteneceTM(ListExpr args){
 		}
 	return listutils::basicSymbol<CcBool>();
 }
+
+ListExpr arcoPerteneceTM(ListExpr args){
+	string err = "grafo expected";
+	if(!nl->HasLength(args,2)){
+		return listutils::typeError("TAMAÑO");
+
+	}else {
+		if(!Grafo::checkType(nl->First(args))){return listutils::typeError("TIPO GRAFO");}
+		if(!Arco::checkType(nl->Second(args))){return listutils::typeError("TIPO Arco");}
+		}
+	return listutils::basicSymbol<CcBool>();
+}
 // Value Mapping
 
 
@@ -1413,6 +1434,15 @@ int nodoPerteneceVM(Word* args, Word& result, int message, Word& local, Supplier
 	res->Set(true,k->nodoPertenece(*a1));
 	return 0;
 }
+
+int arcoPerteneceVM(Word* args, Word& result, int message, Word& local, Supplier s){
+	Grafo* k = (Grafo*) args[0].addr; // obtiene el argumento y hace un cast
+	Arco* a1= (Arco*) args[1].addr;
+	result = qp->ResultStorage(s);
+	CcBool* res = (CcBool*) result.addr;
+	res->Set(true,k->arcoPertenece(*a1));
+	return 0;
+}
 // Especificación
 OperatorSpec nodosMasArcosSpec(
 	"grafo-> int",	
@@ -1472,13 +1502,20 @@ OperatorSpec commonSpec(
 	"grafo x nodo x nodo -> nodo",	
 	"common(_,_,_)",
 	"retorna el primero nodo comun encontrado entre dos nodos.",
-	"query relacion(var_tipo_grafo,nodo1,nodo2)"
+	"query common(var_tipo_grafo,nodo1,nodo2)"
 );
 OperatorSpec nodoPerteneceSpec(
 	"grafo x nodo  -> bool",	
-	"common(_,_)",
+	"nodoPertenece(_,_)",
 	"verdadero si el nodo pertenece al grafo, falso sino.",
-	"query relacion(var_tipo_grafo,nodo1)"
+	"query nodoPertenece(var_tipo_grafo,nodo1)"
+);
+
+OperatorSpec arcoPerteneceSpec(
+	"grafo x arco  -> bool",	
+	"arcoPertenece(_,_)",
+	"verdadero si el arco pertenece al grafo, falso sino.",
+	"query arcoPertenece(var_tipo_grafo,arco1)"
 );
 //Instanciacion del Operador
 Operator nodosMasArcosOp(
@@ -1549,6 +1586,15 @@ Operator nodoPerteneceOp(
 	nodoPerteneceVM,
 	Operator::SimpleSelect,
 	nodoPerteneceTM);
+
+Operator arcoPerteneceOp(
+	"arcoPertenece",
+	arcoPerteneceSpec.getStr(),
+	arcoPerteneceVM,
+	Operator::SimpleSelect,
+	arcoPerteneceTM);
+
+
 class RedesAlgebra: public Algebra{
 	public:
 	  RedesAlgebra() : Algebra(){
@@ -1568,6 +1614,7 @@ class RedesAlgebra: public Algebra{
 	  	AddOperator(&diameterOp);
 	  	AddOperator(&centralOp);
 	  	AddOperator(&nodoPerteneceOp);
+	  	AddOperator(&arcoPerteneceOp);
 	  }
 	  ~RedesAlgebra() {};
 };

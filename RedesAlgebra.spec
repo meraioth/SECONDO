@@ -41,3 +41,5 @@ operator relacion alias relacion pattern op(_,_,_)
 operator common alias common pattern op(_,_,_)
 
 operator nodoPertenece alias nodoPertenece pattern op(_,_)
+
+operator arcoPertenece alias arcoPertenece pattern op(_,_)

@@ -59,13 +59,21 @@ Tolerance : 0.02
 Operator : common
 Number   : 1
 Signature : grafo x nodo x nodo -> nodo
-Example : query relacion(var_grafo,nodo1,nod2)
+Example : query common(var_grafo,nodo1,nod2)
 Result : (2 "pedro");
 Tolerance : 0.02
 
 Operator : nodoPertenece
 Number   : 1
 Signature : grafo x nodo  -> bool
-Example : query relacion(var_grafo,nodo1)
+Example : query nodoPertenece(var_grafo,nodo1)
+Result : true;
+Tolerance : 0.02
+
+
+Operator : arcoPertenece
+Number   : 1
+Signature : grafo x arco  -> bool
+Example : query arcoPertence(var_grafo,arco1)
 Result : true;
 Tolerance : 0.02
