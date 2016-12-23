@@ -1,0 +1,71 @@
+
+
+Operator : nodoMasArcos
+Number   : 1
+Signature : grafo -> int
+Example : query nodoMasArcos([const Grafo value (1 2)])
+Result : 3
+Tolerance : 0.02
+
+Operator : CantNodos
+Number   : 1
+Signature : grafo -> int
+Example : query CantNodos([const Grafo value (1 2)])
+Result : 1
+Tolerance : 0.02
+
+Operator : CantArcos
+Number   : 1
+Signature : grafo -> int
+Example : query CantArcos([const Grafo value (1 2)])
+Result : 0
+Tolerance : 0.02
+
+Operator : radio
+Number   : 1
+Signature : grafo -> int
+Example : query radio([const Grafo value (1 2)])
+Result : 3
+Tolerance : 0.02
+
+Operator : diameter
+Number   : 1
+Signature : grafo -> int
+Example : query radio([const Grafo value (1 2)])
+Result : 4
+Tolerance : 0.02
+
+Operator : nodoMasPopular
+Number   : 1
+Signature : grafo -> Nodo
+Example : query nodoMasPopular(var_grafo)
+Result : (1 "Juan")
+Tolerance : 0.02
+
+Operator : central
+Number   : 1
+Signature : grafo -> Nodo
+Example : query central(var_grafo)
+Result : (1 "Juan")
+Tolerance : 0.02
+
+Operator : relacion
+Number   : 1
+Signature : grafo x string x string -> string
+Example : query relacion(var_grafo,"string1","string2")
+Result : Amistad
+Tolerance : 0.02
+
+Operator : common
+Number   : 1
+Signature : grafo x nodo x nodo -> nodo
+Example : query relacion(var_grafo,nodo1,nod2)
+Result : (2 "pedro");
+Tolerance : 0.02
+
+Operator : nodoPertenece
+Number   : 1
+Signature : grafo x nodo  -> bool
+Example : query relacion(var_grafo,nodo1)
+Result : true;
+Tolerance : 0.02
